@@ -1,2 +1,5 @@
 # university-practice
-University Github classroom activity
+This repository is for practicing github
+##features 
+- homepage
+- About section
