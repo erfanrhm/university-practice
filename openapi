@@ -1,0 +1,450 @@
+openapi: 3.0.3
+info:
+  title: Task Management API
+  version: 1.0.0
+  description: Initial API contract for Users and Tasks resources.
+servers:
+  - url: /api/v1
+tags:
+  - name: Users
+  - name: Tasks
+paths:
+  /users:
+    get:
+      tags: [Users]
+      summary: List users
+        Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: NOT_FOUND
+            message:
+              type: string
+              example: The requested resource was not found.
+  responses:
+        '200':
+          description: Users returned successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags: [Users]
+      summary: Create a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+        Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: NOT_FOUND
+            message:
+              type: string
+              example: The requested resource was not found.
+  responses:
+        '201':
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          description: Email already exists
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /users/{userId}:
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      tags: [Users]
+      summary: Get a user by ID
+        Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: NOT_FOUND
+            message:
+              type: string
+              example: The requested resource was not found.
+  responses:
+        '200':
+          description: User returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    put:
+      tags: [Users]
+      summary: Update a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+        Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: NOT_FOUND
+            message:
+              type: string
+              example: The requested resource was not found.
+  responses:
+        '200':
+          description: User updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags: [Users]
+      summary: Delete a user
+        Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: NOT_FOUND
+            message:
+              type: string
+              example: The requested resource was not found.
+  responses:
+        '204':
+          description: User deleted; no response body
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /tasks:
+    get:
+      tags: [Tasks]
+      summary: List tasks
+      parameters:
+        - name: userId
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [TODO, IN_PROGRESS, DONE]
+        Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: NOT_FOUND
+            message:
+              type: string
+              example: The requested resource was not found.
+  responses:
+        '200':
+          description: Tasks returned successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags: [Tasks]
+      summary: Create a task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskInput'
+        Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: NOT_FOUND
+            message:
+              type: string
+              example: The requested resource was not found.
+  responses:
+        '201':
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          description: The referenced user does not exist
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /tasks/{taskId}:
+    parameters:
+      - name: taskId
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      tags: [Tasks]
+      summary: Get a task by ID
+        Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: NOT_FOUND
+            message:
+              type: string
+              example: The requested resource was not found.
+  responses:
+        '200':
+          description: Task returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    put:
+      tags: [Tasks]
+      summary: Update a task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskInput'
+        Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: NOT_FOUND
+            message:
+              type: string
+              example: The requested resource was not found.
+  responses:
+        '200':
+          description: Task updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags: [Tasks]
+      summary: Delete a task
+        Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: NOT_FOUND
+            message:
+              type: string
+              example: The requested resource was not found.
+  responses:
+        '204':
+          description: Task deleted; no response body
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /tasks/{taskId}/status:
+    patch:
+      tags: [Tasks]
+      summary: Change task status
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [status]
+              properties:
+                status:
+                  type: string
+                  enum: [TODO, IN_PROGRESS, DONE]
+        Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: NOT_FOUND
+            message:
+              type: string
+              example: The requested resource was not found.
+  responses:
+        '200':
+          description: Status updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+components:
+  schemas:
+    UserInput:
+      type: object
+      required: [name, email]
+      properties:
+        name:
+          type: string
+          example: Sara Ahmadi
+        email:
+          type: string
+          format: email
+          example: sara@example.com
+    User:
+      allOf:
+        - $ref: '#/components/schemas/UserInput'
+        - type: object
+          required: [id]
+          properties:
+            id:
+              type: integer
+              example: 1
+    TaskInput:
+      type: object
+      required: [title, status, userId]
+      properties:
+        title:
+          type: string
+          example: Finish chapter 3 activity
+        description:
+          type: string
+          example: Prepare the initial API contract
+        status:
+          type: string
+          enum: [TODO, IN_PROGRESS, DONE]
+        userId:
+          type: integer
+          example: 1
+    Task:
+      allOf:
+        - $ref: '#/components/schemas/TaskInput'
+        - type: object
+          required: [id, createdAt]
+          properties:
+            id:
+              type: integer
+              example: 101
+            createdAt:
+              type: string
+              format: date-time
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: NOT_FOUND
+            message:
+              type: string
+              example: The requested resource was not found.
+  responses:
+    BadRequest:
+      description: Invalid request data
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ServerError:
+      description: Unexpected server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
