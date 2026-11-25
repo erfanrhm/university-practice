@@ -49,6 +49,7 @@ Allowed task statuses: `TODO`, `IN_PROGRESS`, `DONE`.
 }
 ```
 # فعالیت کلاسی 5
+## 1. طراحی پنج Test Case 
 
 برای پروژه مدیریت اطلاعات دانشجویان، پنج Test Case زیر طراحی شده است:
 
@@ -73,7 +74,7 @@ Allowed task statuses: `TODO`, `IN_PROGRESS`, `DONE`.
 
 ## 2. رسم یک Pipeline مفهومی
 
-``` text
+``` 
        نوشتن کد برنامه
               |
               v
@@ -131,7 +132,7 @@ Allowed task statuses: `TODO`, `IN_PROGRESS`, `DONE`.
        Code Push
            |
            v
-       Build
+         Build
            |
            v
      Test Execution
